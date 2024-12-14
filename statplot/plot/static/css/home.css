@@ -25,7 +25,17 @@ body {
     color: white; 
     background-color: rgba(255, 255, 255, 0.2);   
 }
+h1 {
+    font-size: 3rem;
+    font-weight: bold; 
+}
+p {
+    font-size: 1rem;
+    font-weight: bold; 
+}
+
 @font-face {
     font-family: 'Ubuntu';
     src: local('Ubuntu'), url('../static/fonts/Ubuntu-Regular.ttf') format("truetype");
   }
+  

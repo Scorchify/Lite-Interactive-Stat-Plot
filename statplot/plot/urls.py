@@ -7,4 +7,5 @@ urlpatterns = [
 #home page 
 path('', views.index, name='index'),
 #graphing page 
+path('plot/',views.graph, name='plot')
 ]

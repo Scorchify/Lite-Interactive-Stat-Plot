@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
 {% load static %}
+{% load django_bootstrap5 %}
 <meta charset="UTF-8">
 <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.png' %}">
 <title>Lite Interactive Stat Plot</title>
+
+<!-- Boostrap -->
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> <!-- Icons -->
+
+
 <!--Stylesheets-->
 <link rel = "stylesheet" href = "{% static 'css/home.css' %}">
 <link rel = "stylesheet" href = "{% static 'css/graph.css' %}"> 
