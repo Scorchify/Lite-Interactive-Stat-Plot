@@ -6,7 +6,7 @@ import pandas
 import numpy as np
 from values import path_to_csv, best_fit, x, y, exponent
 
-def make_scatter():
+def make_scatter(path_to_csv, best_fit, x, y, exponent):
     sns.set_theme()
     file = pandas.read_csv(path_to_csv)
 

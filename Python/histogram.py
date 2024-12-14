@@ -4,7 +4,7 @@ import seaborn.objects as so # type: ignore
 import pandas # type: ignore
 from values import path_to_csv, x
 
-def make_hisogram():
+def make_hisogram(path_to_csv, x):
     file = pandas.read_csv(path_to_csv)
     #line overlay
     #sns.displot(data=file, x="flipper_length_mm", kind="kde", bw_adjust=2)
