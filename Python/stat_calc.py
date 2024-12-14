@@ -34,7 +34,9 @@ y_range = getrange(y_vals)
 thisy = data[y]
 thisx = data[x]
 
-
+# pearsons correlation coefficient
+pearsons_correlation_coefficient = scipy.pearsonr(data[x], data[y])
+pearson = pearsons_correlation_coefficient[0]
 # print("Equation: y = {:.2f}x + {:.2f}".format(slope, intercept))
 
 #setup
@@ -53,7 +55,7 @@ elif regressionType=="sin":
     initial_guess = [2, 1.5, 0, 0]
     params, covariance = curve_fit(sine_function, thisx, thisy, p0=initial_guess)
     A_fit, B_fit, C_fit, D_fit = params
-    expr = A_fit*np.sin(B_fit*x-C_fit)+D_fit
+    expr = A_fit*sin(B_fit*x-C_fit)+D_fit
 
 else:
     expr = 1
@@ -71,6 +73,4 @@ print("Value of the derivative : {}".format(expr_diff.doit()))
 print("Value of the integral : {}".format(expr_integ.doit()))
 
 
-# pearsons correlation coefficient
-pearsons_correlation_coefficient = scipy.pearsonr(data[x], data[y])
-pearson = pearsons_correlation_coefficient[0]
+
