@@ -21,10 +21,11 @@
 
 .dataTab {
     width: 25vw;
-    position: fixed !important; 
+    position: absolute; 
     right: 0;
     top: 5vh; 
     height: 95vh;
     background-color: #f8f9fae4;
     overflow-y: auto;
 }
+

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import csv
 from django.http import HttpResponse
+from io import TextIOWrapper
 from .forms import DataInputFormSet
 
 # Create your views here.
@@ -11,24 +12,48 @@ def graph(request):
     return render(request, 'plot.html') 
 
 def data_view(request):
-    if request.method == "POST":
-        formset = DataInputFormSet(request.POST)
-        if formset.is_valid():
-            data = formset.cleaned_data
+    if request.method == "POST" and 'csv_file' in request.FILES:
+        csv_file = request.FILES['csv_file']
+
+        # Ensure it's a valid CSV file
+        if not csv_file.name.endswith('.csv'):
+            return render(request, 'plot.html', {
+                'error': 'Please upload a valid CSV file.',
+            })
+
+        try:
+            # Read the uploaded CSV file
+            data = TextIOWrapper(csv_file.file, encoding='utf-8')
+            reader = csv.DictReader(data)
+            
+            # Verify the required columns
+            required_columns = {'x', 'y', 'color', 'point_type', 'group'}
+            if not required_columns.issubset(reader.fieldnames):
+                return render(request, 'plot.html', {
+                    'error': 'CSV file must contain columns: x, y, color, point_type, group.',
+                })
+
+            # Create a CSV response file for download
             response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="data.csv"'
+            response['Content-Disposition'] = 'attachment; filename="processed_data.csv"'
             writer = csv.writer(response)
             writer.writerow(['x', 'y', 'color', 'point_type', 'group'])
-            
-            for form in formset: 
+
+            for row in reader:
                 writer.writerow([
-                    form.cleaned_data['x'],
-                    form.cleaned_data['y'],
-                    form.cleaned_data['color'],
-                    form.cleaned_data['point_type'],
-                    form.cleaned_data['group']
+                    row['x'],
+                    row['y'],
+                    row['color'],
+                    row['point_type'],
+                    row.get('group', '')  # Group is optional
                 ])
-                return response
-            else:
-                formset = DataInputFormSet()
-            return render(request, 'data.html', {'formset': formset})
+            
+            return response
+
+        except Exception as e:
+            return render(request, 'plot.html', {
+                'error': f'Error processing CSV file: {str(e)}',
+            })
+
+    # Render the upload page if not POST
+    return render(request, 'plot.html')
