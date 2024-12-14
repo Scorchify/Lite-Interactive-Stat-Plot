@@ -33,22 +33,13 @@ def data_view(request):
                     'error': 'CSV file must contain columns: x, y, color, point_type, group.',
                 })
 
-            # Create a CSV response file for download
-            response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="processed_data.csv"'
-            writer = csv.writer(response)
-            writer.writerow(['x', 'y', 'color', 'point_type', 'group'])
+            # Collect the data to display in the table
+            csv_data = [row for row in reader]
 
-            for row in reader:
-                writer.writerow([
-                    row['x'],
-                    row['y'],
-                    row['color'],
-                    row['point_type'],
-                    row.get('group', '')  # Group is optional
-                ])
-            
-            return response
+            return render(request, 'plot.html', {
+                'csv_data': csv_data,
+                'columns': required_columns,
+            })
 
         except Exception as e:
             return render(request, 'plot.html', {

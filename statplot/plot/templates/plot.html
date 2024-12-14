@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 {% block content %}
 <div class="navbar">
     <div class="dropdown">
@@ -25,7 +26,28 @@
         </form>
     </div>
     
+    {% if csv_data %}
+    <div class="csv_table">
+        <h3>Uploaded Data</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    {% for column in columns %}
+                    <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in csv_data %}
+                <tr>
+                    {% for column in columns %}
+                    <td>{{ row|get_item:column }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
 </div>
-
-
 {% endblock %}
