@@ -22,6 +22,7 @@ def sine_function(x, A, B, C, D):
 def pearsonfunc(x, y):
     pearsons_correlation_coefficient = scipy.pearsonr(x, y)
     pearson = pearsons_correlation_coefficient[0]
+    return pearson
 
 def regressionEquation(x,y):
     if(regressionType=="polynomial"):
