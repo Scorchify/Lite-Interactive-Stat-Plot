@@ -1,0 +1,30 @@
+.navbar { 
+    background-color: #f8f9fae4;
+    border-bottom: 1px solid #e9ecef;
+    border-radius: 0; 
+    align-content: center;
+    justify-content: flex-start !important;
+    width: 100vw;
+    height: 5vh;
+    position: fixed !important;
+    top:0vh;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    
+}
+.navbar .dropdown,
+.navbar .btn-dark {
+    margin-left: -15px;
+    margin-right: 20px;
+}
+
+.dataTab {
+    width: 25vw;
+    position: fixed !important; 
+    right: 0;
+    top: 5vh; 
+    height: 95vh;
+    background-color: #f8f9fae4;
+    overflow-y: auto;
+}

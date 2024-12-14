@@ -1,6 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="navbar>
+<div class="navbar">
+    <div class="dropdown">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="bi bi-wrench-adjustable"></i>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="#">Functions Tab</a>
+        </div>
+      </div>
+      <a href="{% url 'plot:plot' %}" class="btn btn-dark">+</a>
+</div>
 
+<div class="dataTab">
+    <div class="user_input">
+        <h3> Enter Your Data Here </h3>
+        <form method="POST">
+            {% csrf_token %}
+            {{ formset.management_form}}
+            <table>
+                {% for field in formset %}
+                <tr>
+                <td>{{ field.label_tag }} {{ field }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
 </div>
 {% endblock %}
