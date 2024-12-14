@@ -21,6 +21,11 @@
         <button type="submit" class="btn btn-primary">Upload</button>
     </form>
 </div>
+{% if graph %}
+<div class="statdata">
+
+</div> 
+{% endif %}
 <div class="graph"> 
 {% if graph %}
 <img src="data:image/png;base64,{{ graph }}" alt="Graph">
