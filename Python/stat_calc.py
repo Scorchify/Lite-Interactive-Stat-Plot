@@ -17,6 +17,29 @@ def getrange(data):
 def sine_function(x, A, B, C, D):
     return A * np.sin(B * x + C) + D
 
+# pearsons correlation coefficient
+# (data[x], data[y])
+def pearsonfunc(x, y):
+    pearsons_correlation_coefficient = scipy.pearsonr(x, y)
+    pearson = pearsons_correlation_coefficient[0]
+
+def regressionEquation(x,y):
+    if(regressionType=="polynomial"):
+        
+        coefficients = np.polyfit(thisx, thisy, exponent)
+        slope = coefficients[0]
+        intercept = coefficients[1]
+        return slope*x**exponent+intercept
+        
+    elif regressionType=="sin":
+        initial_guess = [2, 1.5, 0, 0]
+        params, covariance = curve_fit(sine_function, thisx, thisy, p0=initial_guess)
+        A_fit, B_fit, C_fit, D_fit = params
+        return A_fit*sin(B_fit*x-C_fit)+D_fit
+
+    else:
+        return 1
+
 data = pandas.read_csv("data_scatter.csv")
 
 
@@ -34,31 +57,14 @@ y_range = getrange(y_vals)
 thisy = data[y]
 thisx = data[x]
 
-# pearsons correlation coefficient
-pearsons_correlation_coefficient = scipy.pearsonr(data[x], data[y])
-pearson = pearsons_correlation_coefficient[0]
+
 # print("Equation: y = {:.2f}x + {:.2f}".format(slope, intercept))
 
 #setup
-x, y = symbols('x y')
+symbolx, symboly = symbols('x y')
+expr = regressionEquation(symbolx,symboly)
 
 # regression options
-# polynomial or sinosoidal
-if(regressionType=="polynomial"):
-    
-    coefficients = np.polyfit(thisx, thisy, exponent)
-    slope = coefficients[0]
-    intercept = coefficients[1]
-    expr = slope*x**exponent+intercept
-    
-elif regressionType=="sin":
-    initial_guess = [2, 1.5, 0, 0]
-    params, covariance = curve_fit(sine_function, thisx, thisy, p0=initial_guess)
-    A_fit, B_fit, C_fit, D_fit = params
-    expr = A_fit*sin(B_fit*x-C_fit)+D_fit
-
-else:
-    expr = 1
 
 print("Expression : {}".format(expr))
 
