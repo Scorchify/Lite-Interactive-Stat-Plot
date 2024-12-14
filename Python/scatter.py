@@ -4,7 +4,7 @@ import seaborn as sns
 import seaborn.objects as so
 import pandas
 import numpy as np
-from values import path_to_csv, best_fit, x, y
+from values import path_to_csv, best_fit, x, y, exponent
 
 sns.set_theme()
 file = pandas.read_csv(path_to_csv)
@@ -17,6 +17,6 @@ file = pandas.read_csv(path_to_csv)
 if best_fit:
     sns.regplot(file, x=x, y=y)
 else:
-    sns.scatterplot(file, x=x, y=y)
+    sns.scatterplot(file, x=x, y=y, order=exponent)
 
 p.show()
