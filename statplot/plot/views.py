@@ -2,49 +2,46 @@ from django.shortcuts import render
 import csv
 from django.http import HttpResponse
 from io import TextIOWrapper
-from .forms import DataInputFormSet
+from .forms import DataInputForm
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib
+import pandas as pd
+matplotlib.use('Agg')
+from io import BytesIO
+import base64 
+
+
 
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
 
 def graph(request):
-    return render(request, 'plot.html') 
+    if request.method == 'POST':
+        form = DataInputForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES.get('csv_file')
+            if csv_file:
+                try:
+                    data = pd.read_csv(csv_file)
+                except pd.errors.ParserError:
+                    form.add_error('csv_file', 'The CSV file is formatted incorrectly.')
+                    return render(request, 'plot.html', {'form': form})
+                
+                plt.figure(figsize=(10, 6))
+                sns.regplot(data=data, x='x', y='y')
+                buffer = BytesIO()
+                plt.savefig(buffer, format='png')
+                buffer.seek(0)
+                image_png = buffer.getvalue()
+                buffer.close()
+                image_base64 = base64.b64encode(image_png).decode('utf-8')
+                return render(request, 'plot.html', {'form': form, 'graph': image_base64})
+            else:
+                form.add_error('csv_file', 'This field is required.')
+    else:
+        form = DataInputForm()
+    return render(request, 'plot.html', {'form': form})
 
-def data_view(request):
-    if request.method == "POST" and 'csv_file' in request.FILES:
-        csv_file = request.FILES['csv_file']
-
-        # Ensure it's a valid CSV file
-        if not csv_file.name.endswith('.csv'):
-            return render(request, 'plot.html', {
-                'error': 'Please upload a valid CSV file.',
-            })
-
-        try:
-            # Read the uploaded CSV file
-            data = TextIOWrapper(csv_file.file, encoding='utf-8')
-            reader = csv.DictReader(data)
-            
-            # Verify the required columns
-            required_columns = {'x', 'y', 'color', 'point_type', 'group'}
-            if not required_columns.issubset(reader.fieldnames):
-                return render(request, 'plot.html', {
-                    'error': 'CSV file must contain columns: x, y, color, point_type, group.',
-                })
-
-            # Collect the data to display in the table
-            csv_data = [row for row in reader]
-
-            return render(request, 'plot.html', {
-                'csv_data': csv_data,
-                'columns': required_columns,
-            })
-
-        except Exception as e:
-            return render(request, 'plot.html', {
-                'error': f'Error processing CSV file: {str(e)}',
-            })
-
-    # Render the upload page if not POST
-    return render(request, 'plot.html')

@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load custom_filters %}
 {% block content %}
 <div class="navbar">
     <div class="dropdown">
@@ -12,42 +11,19 @@
       </div>
       <a href="{% url 'plot:plot' %}" class="btn btn-dark">+</a>
 </div>
+</div>
 
 <div class="dataTab">
-    <div class="user_input">
-        <h3>Upload Your Data Here</h3>
-        <form method="POST" enctype="multipart/form-data" action="{% url 'plot:data_view' %}">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="csv_file">Upload CSV File</label>
-                <input type="file" id="csv_file" name="csv_file" accept=".csv" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-primary">Upload</button>
-        </form>
-    </div>
-    
-    {% if csv_data %}
-    <div class="csv_table">
-        <h3>Uploaded Data</h3>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    {% for column in columns %}
-                    <th>{{ column }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in csv_data %}
-                <tr>
-                    {% for column in columns %}
-                    <td>{{ row|get_item:column }}</td>
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% endif %}
+    <h1>Upload CSV and Generate Graph</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
 </div>
+<div class="graph"> 
+{% if graph %}
+<img src="data:image/png;base64,{{ graph }}" alt="Graph">
+{% endif %}
+</div> 
 {% endblock %}
