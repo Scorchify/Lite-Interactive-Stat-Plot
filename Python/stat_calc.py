@@ -46,6 +46,7 @@ data = pandas.read_csv("data_scatter.csv")
 # Basic statistics
 # range is local func
 y_vals = data[y].tolist()
+x_vals = data[x].tolist()
 y_mean = st.mean(y_vals)
 y_median = st.median(y_vals)
 y_mode = st.mode(y_vals)
@@ -72,7 +73,7 @@ print("Expression : {}".format(expr))
 # derivative of regression equation
 expr_diff = Derivative(expr, x)  
 # integral of regression equation
-expr_integ = integrate(expr, (x,min(y_vals),max(y_vals)))
+expr_integ = integrate(expr, (x,min(x_vals),max(x_vals)))
      
 print("Derivative of expression with respect to x : {}".format(expr_diff))  
 print("Value of the derivative : {}".format(expr_diff.doit()))
