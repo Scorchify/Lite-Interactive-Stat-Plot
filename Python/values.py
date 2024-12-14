@@ -2,3 +2,5 @@
 x="x"
 y="y"
 exponent = 1
+
+regressionType = "sin"
