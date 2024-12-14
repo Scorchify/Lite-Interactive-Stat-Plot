@@ -17,7 +17,6 @@ def getrange(data):
 def sine_function(x, A, B, C, D):
     return A * np.sin(B * x + C) + D
 
-# pearsons correlation coefficient
 # (data[x], data[y])
 def pearsonfunc(x, y):
     pearsons_correlation_coefficient = scipy.pearsonr(x, y)
@@ -40,45 +39,50 @@ def regressionEquation(x,y):
 
     else:
         return 1
+data,y_mean,y_median,y_mode,y_vals,y_variance,y_range,thisx,thisy=None
 
-data = pandas.read_csv("data_scatter.csv")
+def set_vals(path_to_csv):
+    global data,y_mean,y_median,y_mode,y_vals,y_variance,y_range,thisy,thisx
+
+    data = pandas.read_csv(path_to_csv)
+
+    # Basic statistics
+    # range is local func
+    y_vals = data[y].tolist()
+    x_vals = data[x].tolist()
+    y_mean = st.mean(y_vals)
+    y_median = st.median(y_vals)
+    y_mode = st.mode(y_vals)
+    y_variance = st.variance(y_vals)
+    y_range = getrange(y_vals)
 
 
-# Basic statistics
-# range is local func
-y_vals = data[y].tolist()
-x_vals = data[x].tolist()
-y_mean = st.mean(y_vals)
-y_median = st.median(y_vals)
-y_mode = st.mode(y_vals)
-y_variance = st.variance(y_vals)
-y_range = getrange(y_vals)
-
-
-# find equation of regression
-thisy = data[y]
-thisx = data[x]
+    # find equation of regression
+    thisy = data[y]
+    thisx = data[x]
 
 
 # print("Equation: y = {:.2f}x + {:.2f}".format(slope, intercept))
 
-#setup
-symbolx, symboly = symbols('x y')
-expr = regressionEquation(symbolx,symboly)
+def print_vals():
+    #setup
+    symbolx, symboly = symbols('x y')
+    expr = regressionEquation(symbolx,symboly)
 
-# regression options
+    # regression options
 
-print("Expression : {}".format(expr))
+    print("Expression : {}".format(expr))
+    
 
-
-# derivative of regression equation
-expr_diff = Derivative(expr, x)  
-# integral of regression equation
-expr_integ = integrate(expr, (x,min(x_vals),max(x_vals)))
-     
-print("Derivative of expression with respect to x : {}".format(expr_diff))  
-print("Value of the derivative : {}".format(expr_diff.doit()))
-print("Value of the integral : {}".format(expr_integ.doit()))
+    # derivative of regression equation
+    expr_diff = Derivative(expr, x)  
+    # integral of regression equation
+    expr_integ = integrate(expr, (x,min(x_vals),max(x_vals)))
+        
+    print("Derivative of expression with respect to x : {}".format(expr_diff))  
+    #pearson
+    pearsons_correlation_coefficient = scipy.pearsonr(x, y)
+    return "Value of the derivative : {}".format(expr_diff.doit()),"Value of the integral : {}".format(expr_integ.doit()), pearsons_correlation_coefficient[0]
 
 
 
