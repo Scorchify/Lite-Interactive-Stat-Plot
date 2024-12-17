@@ -32,6 +32,11 @@ def plotly(request):
             df = pd.read_csv(csv_file) # reads csv file
 
             fig = px.scatter(df, x="velocity", y="time", title="Velocity vs Time") # creates scatter plot
+            fig.update_layout(
+                autosize=True,
+                margin=dict(l=0, r=0, t=0, b=0), # Remove margins to make it fully responsive
+                height=700
+            )
             graph_html = fig.to_html(full_html=False) # converts plot to HTML
             return render(request, 'plot.html', {'form': form, 'graph_html': graph_html}) # returns plot.html with the plot
         else: 
