@@ -7,7 +7,7 @@ urlpatterns = [
 #home page 
 path('', views.index, name='index'),
 #graphing page 
-path('plot/',views.graph, name='plot'),
+path('plot/',views.plotly, name='plot'),
 #data view
 
 

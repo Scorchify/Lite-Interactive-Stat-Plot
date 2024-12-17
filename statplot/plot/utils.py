@@ -92,24 +92,7 @@ def regressionEquation(x,y):
         x_skew = st.stdev(data_x)
         y_skew = st.stdev(data_y)
 
-def make_scatter(path_to_csv, best_fit, x, y, exponent, style,regressionType):
-    sns.set_theme(style= style)
-    file = pd.read_csv(path_to_csv) #read csv 
-    
-    plt.figure(figsize=(10,6))
-    if best_fit:
-        sns.regplot(data=file, x=x, y=y, order=exponent)
-    else:
-        sns.scatterplot(data=file, x=x, y=y)
-    
-    buffer = BytesIO()
-    plt.savefig(buffer, format='png')
-    buffer.seek(0)
-    image_png = buffer.getvalue()
-    buffer.close()
 
-    image_base64 = base64.b64encode(image_png).decode('utf-8')
-    return image_base64
 
 
         
