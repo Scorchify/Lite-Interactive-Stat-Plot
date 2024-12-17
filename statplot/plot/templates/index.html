@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class = "container">   
+<div class="container">   
     <h1> Welcome to LISP </h1>
-    <p> Lite Interactive Statistics Plot is a tool for users to analyze their data. 
+    <p> Lite Interactive Statistics Plot (LISP) is a tool for users to analyze their data. 
         <br>
         There are are a vast range of functions that users can use to analyze their data.
         <br>
     </p>
-    <a href="{% url 'plot:plot' %}" class="btn btn-dark"> Start Plotting </a>
+    <a href="{% url 'plot:plot' %}" class="btn btn-dark"> Start Plotting </a> <!-- link to graph-->
 </div>
 
 {% endblock %}

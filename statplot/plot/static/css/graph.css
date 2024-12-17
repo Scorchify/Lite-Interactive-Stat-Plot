@@ -20,7 +20,7 @@
 }
 
 .dataTab {
-    width: 25vw;
+    width: 27.5vw;
     position: absolute; 
     right: 0;
     top: 5vh; 
@@ -32,9 +32,9 @@
     position: absolute; 
     bottom: 0;
     left: 0;
-    width: 75vw;
+    width: 72.5vw;
     height: 95vh;
-    background-color: #f8f9fae4;
+    background-color: #231c1c !important;
     padding: 10px;
 }
 
