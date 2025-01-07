@@ -25,20 +25,26 @@ def index(request):
 
 def plotly(request): 
     global path_to_csv
+    graphStatus = False
     if request.method == 'POST':
         form = DataInputForm(request.POST, request.FILES)
         if form.is_valid(): 
+            graphStatus = True 
             csv_file = request.FILES.get('csv_file') # gets csv file from form
             df = pd.read_csv(csv_file) # reads csv file
+            
 
             fig = px.scatter(df, x="velocity", y="time", title="Velocity vs Time") # creates scatter plot
             fig.update_layout(
                 autosize=True,
                 margin=dict(l=0, r=0, t=0, b=0), # Remove margins to make it fully responsive
-                height=700
             )
             graph_html = fig.to_html(full_html=False) # converts plot to HTML
-            return render(request, 'plot.html', {'form': form, 'graph_html': graph_html}) # returns plot.html with the plot
+            return render(request, 'plot.html', {
+                'form': form,
+                'graph_html': graph_html,
+                'graph_style': 'position: absolute; top: 5vh; left: 0; width: 72.5vw; height: 90vh; background-color: #ffffff; padding: 10px; overflow: auto;' # Inline styles
+            }) # returns plot.html with the plot
         else: 
             return render(request, 'plot.html', {'form': form}) # returns plot.html with the form
     else: 

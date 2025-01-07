@@ -33,8 +33,21 @@
 {% endif %} -->
 
 {% if graph_html %}
-<div class="plotTab" style="position: absolute; top: 5vh; left: 0; width: 75vw; height: 95vh; background-color: #ffffff; padding: 10px; overflow: auto;">
+<div class="plotTab" style="{{ graph_style }}">
     {{ graph_html|safe }}
 </div>
+
+{% if graphStatus == True %}
+<div class="table">
+    <table>
+        <tr>
+            <th></th>
+
+            </tr>
+    </table>
+
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 {% endif %}
 {% endblock %}
