@@ -3,8 +3,6 @@ from django.forms import formset_factory
 
 class DataInputForm(forms.Form):
     csv_file = forms.FileField() #read csv file 
-
-class VariablesForm(forms.Form):
     x = forms.CharField(max_length=100) #expected input is string
     y = forms.CharField(max_length=100) #expected input is string
     best_fit = forms.BooleanField(required=False)

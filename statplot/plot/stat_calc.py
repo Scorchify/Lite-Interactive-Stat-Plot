@@ -2,7 +2,7 @@ import pandas
 import math
 import statistics as st
 import numpy as np # type: ignore
-from values import x,y,exponent,regressionType
+# from values import x,y,exponent,regressionType
 from sympy import *
 from scipy.optimize import curve_fit
 import scipy.stats as scipy
@@ -23,7 +23,7 @@ def pearsonfunc(x, y):
     pearson = pearsons_correlation_coefficient[0]
     return pearson
 
-def regressionEquation(x,y):
+def regressionEquation(x,y, regressionType, exponent):
     if(regressionType=="polynomial"):
         
         coefficients = np.polyfit(thisx, thisy, exponent)
@@ -39,10 +39,12 @@ def regressionEquation(x,y):
 
     else:
         return 1
-data,y_mean,y_median,y_mode,y_vals,y_variance,y_range,thisx,thisy=None
+# data,y_mean,y_median,y_mode,y_vals,y_variance,y_range,thisx,thisy=None
 
-def set_vals(path_to_csv):
-    global data,y_mean,y_median,y_mode,y_vals,y_variance,y_range,thisy,thisx
+def set_vals(path_to_csv, lx, ly):
+    global data,y_mean,y_median,y_mode,y_vals,x_vals,y_variance,y_range,thisy,thisx,x,y
+    x=lx
+    y=ly
 
     data = pandas.read_csv(path_to_csv)
 
@@ -64,10 +66,10 @@ def set_vals(path_to_csv):
 
 # print("Equation: y = {:.2f}x + {:.2f}".format(slope, intercept))
 
-def print_vals():
+def print_vals(regressionType, exponent):
     #setup
     symbolx, symboly = symbols('x y')
-    expr = regressionEquation(symbolx,symboly)
+    expr = regressionEquation(symbolx,symboly, regressionType, exponent)
 
     # regression options
 
@@ -81,8 +83,8 @@ def print_vals():
         
     print("Derivative of expression with respect to x : {}".format(expr_diff))  
     #pearson
-    pearsons_correlation_coefficient = scipy.pearsonr(x, y)
-    return "Value of the derivative : {}".format(expr_diff.doit()),"Value of the integral : {}".format(expr_integ.doit()), pearsons_correlation_coefficient[0]
+    # pearsons_correlation_coefficient = scipy.pearsonr(x, y)
+    return "Value of the derivative : {}".format(expr_diff.doit()),"Value of the integral : {}".format(expr_integ.doit()) # , pearsons_correlation_coefficient[0]
 
 
 
